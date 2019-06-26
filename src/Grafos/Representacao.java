@@ -9,7 +9,7 @@ public class Representacao {
     public void init(int numVertices) {
         this.numVert = numVertices;
         matriz = new int[this.numVert][this.numVert];
-        fillMatrizAdjacencia(0);
+        fillMatrizAdjacencia(-1);
     }
 
     public int getNumVert() {
@@ -59,7 +59,7 @@ public class Representacao {
     public ArrayList getAdjacentes(int no){
         ArrayList<No> adj = new ArrayList<No>();
         for(int i=0; i<this.matriz.length;i++){
-            if(matriz[no][i] != 0)
+            if(matriz[no][i] != -1)
                 adj.add(new No(i));
         }
         return adj;

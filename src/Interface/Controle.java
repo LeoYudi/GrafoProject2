@@ -146,10 +146,10 @@ public class Controle extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(495, Short.MAX_VALUE)
-                .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -166,8 +166,8 @@ public class Controle extends javax.swing.JFrame {
 
     private void MIHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MIHelpActionPerformed
         System.out.println("pau no seu cu");
-        ID.setText("va a merda");
-        ID.setForeground(Color.black);
+        
+        
     }//GEN-LAST:event_MIHelpActionPerformed
 
     private void MICriarGrafosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MICriarGrafosActionPerformed
@@ -180,8 +180,8 @@ public class Controle extends javax.swing.JFrame {
             BufferedReader in = null;
             try {
                 in = new BufferedReader(new FileReader(filename));
-                int grafo = Integer.parseInt(in.readLine());
-                if (grafo == 0) tipo = "Grafo ";
+                int aux = Integer.parseInt(in.readLine());
+                if (aux == 0) tipo = "Grafo ";
                     else tipo = "Digrafo ";
                     
                 
@@ -211,7 +211,21 @@ public class Controle extends javax.swing.JFrame {
                 }  //se tiver peso nas arestas, adicionar mais uma leitura de token
 
                 this.view.setGraph(graph);
-
+                
+                Boolean flag = false;
+                for (int i=0; i<nVert; i++)
+                    for (int j=0; j<nVert; j++)
+                        if (this.grafo.getRepresentacao().getMatriz()[i][j] != -1 && 
+                                this.grafo.getRepresentacao().getMatriz()[i][j] != 0) {
+                            flag = true;
+                            break;
+                        }
+                if (flag) tipo += "Ponderado";
+                    else tipo += "Nao-Ponderado";
+                
+                ID.setText(tipo);
+                ID.setForeground(Color.black);
+                
             } catch (IOException ex) {
                 Logger.getLogger(Controle.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
