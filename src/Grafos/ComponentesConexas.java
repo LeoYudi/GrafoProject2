@@ -1,12 +1,14 @@
 package Grafos;
 
+import java.util.ArrayList;
+
 public class ComponentesConexas {
     private int numComp;
     private int componentes[] = null;
     
     public void execute(Grafo grafo) {
         Representacao rep = grafo.getRepresentacao();
-        componentes = new int[rep.getNumVertices()];
+        componentes = new int[rep.getNumVert()];
         buscaProfundidade(rep);
     }
 
@@ -26,12 +28,11 @@ public class ComponentesConexas {
 
     private void visita(Representacao rep, int vert, int idComp) {
         componentes[vert] = idComp;
-        No adj = ((ListaAdjacencia) rep).getAdjacentes(vert);
-        while (adj != null) {
-            if (componentes[adj.getVertID()] == -1) {
-                visita(rep, adj.getVertID(), idComp);
+        ArrayList<No> adj = rep.getAdjacentes(vert);
+        for(int i=0;i<adj.size();i++) {
+            if (componentes[adj.get(i).getVertID()] == -1) {
+                visita(rep, adj.get(i).getVertID(), idComp);
             }
-            adj = adj.getProx();
         }
     }
 

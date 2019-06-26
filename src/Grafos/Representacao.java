@@ -1,5 +1,7 @@
 package Grafos;
 
+import java.util.ArrayList;
+
 public class Representacao {
     private int numVert = 0;
     private int[][] matriz;
@@ -8,6 +10,22 @@ public class Representacao {
         this.numVert = numVertices;
         matriz = new int[this.numVert][this.numVert];
         fillMatrizAdjacencia(0);
+    }
+
+    public int getNumVert() {
+        return numVert;
+    }
+
+    public void setNumVert(int numVert) {
+        this.numVert = numVert;
+    }
+
+    public int[][] getMatriz() {
+        return matriz;
+    }
+
+    public void setMatriz(int[][] matriz) {
+        this.matriz = matriz;
     }
 
     public void fillMatrizAdjacencia(int value) {
@@ -36,6 +54,15 @@ public class Representacao {
             }
             System.out.println("");
         }
+    }
+    
+    public ArrayList getAdjacentes(int no){
+        ArrayList<No> adj = new ArrayList<No>();
+        for(int i=0; i<this.matriz.length;i++){
+            if(matriz[no][i] != 0)
+                adj.add(new No(i));
+        }
+        return adj;
     }
 }
 

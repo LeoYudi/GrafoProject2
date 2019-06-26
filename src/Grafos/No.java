@@ -6,9 +6,8 @@ public class No {
     private int vertID;
     private Color cor;
 
-    public No(int vertID, int peso) {
+    public No(int vertID) {
         this.vertID = vertID;
-        this.peso = peso;
         this.cor = Color.white;
     }
 

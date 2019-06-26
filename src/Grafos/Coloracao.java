@@ -1,11 +1,13 @@
 package Grafos;
 
+import java.util.ArrayList;
+
 public class Coloracao {
     private int cores[] = null;
     
     public void execute(Grafo grafo) {
         Representacao rep = grafo.getRepresentacao();
-        cores = new int[rep.getNumVertices()];
+        cores = new int[rep.getNumVert()];
         for (int i=0; i<cores.length; i++){
             cores[i] = -1;
         }
@@ -16,23 +18,23 @@ public class Coloracao {
 
     private void coloreVertice(Representacao rep, int vert) {
         cores[vert] = corApropriada(rep, vert);
-        No adj = ((ListaAdjacencia) rep).getAdjacentes(vert);
-        while (adj != null) {
-            if (cores[adj.getVertID()] == -1) {
-                coloreVertice(rep, adj.getVertID());
+        ArrayList<No> adj = rep.getAdjacentes(vert);
+        for(int i=0; i<adj.size();i++) {
+            if (cores[adj.get(i).getVertID()] == -1) {
+                coloreVertice(rep, adj.get(i).getVertID());
             }
-            adj = adj.getProx();
         }
     }
     
     private int corApropriada(Representacao rep, int vert){
         int cor = -1;
         Boolean flag = false;        
+        int i=0;
         while (!flag){
             cor++;
-            No adj = ((ListaAdjacencia) rep).getAdjacentes(vert);
-            while (adj!=null && cores[adj.getVertID()] != cor){
-                adj = adj.getProx();
+            ArrayList<No> adj = rep.getAdjacentes(vert);
+            while (adj!=null && cores[adj.get(i).getVertID()] != cor){
+                i++;
             }
             if (adj == null){
                 flag = true;
@@ -44,15 +46,11 @@ public class Coloracao {
     private int verticeMaiorGrau(Representacao rep){
         int vert = 0;
         int maior = Integer.MIN_VALUE;
-        for (int i=0; i<rep.getNumVertices(); i++){
+        for (int i=0; i<rep.getNumVert(); i++){
             int cont = 0;
-            No aux = ((ListaAdjacencia) rep).getAdjacentes(i);
-            while (aux != null){
-                cont++;
-                aux = aux.getProx();
-            }
-            if (cont > maior){
-                maior = cont;
+            ArrayList<No> aux = rep.getAdjacentes(i);
+            if (aux.size() > maior){
+                maior = aux.size();
                 vert = i;
             }
         }
