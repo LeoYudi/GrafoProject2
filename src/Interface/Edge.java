@@ -8,7 +8,7 @@ import java.awt.Point;
 
 public class Edge {
 
-    private Color color = Color.WHITE; //Cor da aresta
+    private Color color = Color.BLACK; //Cor da aresta
     private Vertex source; //primeiro vetice da aresta
     private Vertex target; //segundo vertice da aresta
     private Boolean directed = false; //se a aresta é direcionada

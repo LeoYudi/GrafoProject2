@@ -173,6 +173,7 @@ public class Controle extends javax.swing.JFrame {
     private void MICriarGrafosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MICriarGrafosActionPerformed
         JFileChooser fc = new JFileChooser();
         int result;
+        String tipo;
         result = fc.showOpenDialog(null);
         if (result == javax.swing.JFileChooser.APPROVE_OPTION) {
             String filename = fc.getSelectedFile().getAbsolutePath();
@@ -180,6 +181,9 @@ public class Controle extends javax.swing.JFrame {
             try {
                 in = new BufferedReader(new FileReader(filename));
                 int grafo = Integer.parseInt(in.readLine());
+                if (grafo == 0) tipo = "Grafo ";
+                    else tipo = "Digrafo ";
+                    
                 
                 // le numero de vertices
                 int nVert =  Integer.parseInt(in.readLine());
