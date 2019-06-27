@@ -35,6 +35,8 @@ public class No {
     public No(int vertID) {
         this.vertID = vertID;
         this.cor = Color.white;
+        this.distancia = -1;
+        this.predecessor = -1;
     }
 
     public int getVertID() {

@@ -30,7 +30,7 @@ public class Controle extends javax.swing.JFrame {
         initComponents();
     }
 
-    private ViewPanel view;;
+    private ViewPanel view;
     private Graph graph;
     private Grafo grafo;
     
@@ -183,7 +183,6 @@ public class Controle extends javax.swing.JFrame {
                 if (aux == 0) tipo = "Grafo ";
                     else tipo = "Digrafo ";
                     
-                
                 // le numero de vertices
                 int nVert =  Integer.parseInt(in.readLine());
                 this.graph = new Graph(nVert); ///desenho
@@ -214,13 +213,19 @@ public class Controle extends javax.swing.JFrame {
                 Boolean flag = false;
                 for (int i=0; i<nVert; i++)
                     for (int j=0; j<nVert; j++)
-                        if (this.grafo.getMatriz()[i][j] != -1 && 
-                                this.grafo.getMatriz()[i][j] != 0) {
+                        if (Grafo.getMatriz()[i][j] != -1 && 
+                                Grafo.getMatriz()[i][j] != 0) {
                             flag = true;
                             break;
                         }
-                if (flag) tipo += "Ponderado";
-                    else tipo += "Nao-Ponderado";
+                if (flag) {
+                    
+                    tipo += "Ponderado";
+                }
+                else {
+                    this.grafo.setPonderado(false);
+                    tipo += "Nao-Ponderado";
+                }
                 
                 ID.setText(tipo);
                 ID.setForeground(Color.black);

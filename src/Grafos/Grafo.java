@@ -5,10 +5,19 @@ import java.util.ArrayList;
 public class Grafo {
     private int numVert;
     private static boolean ponderado = false;
-    private int[][] matriz;
+    private static int[][] matriz;
+    private static No[] vertices;
     
     public Grafo(int numVert){
         this.numVert = numVert;
+        vertices = new No[numVert];
+        matriz = new int[this.numVert][this.numVert];
+        for (int i = 0; i < numVert; i++) {
+            for (int j = 0; j < numVert; j++) {
+                matriz[i][j] = -1;
+            }
+            vertices[i] = new No(i);
+        }
     }
 
     public int getNumVert() {
@@ -19,30 +28,24 @@ public class Grafo {
         this.numVert = numVert;
     }
 
-    public int[][] getMatriz() {
-        return matriz;
-    }
-    
     public static boolean isPonderado(){
         return ponderado;
     }
     
-    public static void setPonderado(boolean pond){
+    public void setPonderado(boolean pond){
         ponderado = pond;
     }
     
-    public void init(int numVertices) {
-        this.numVert = numVertices;
-        matriz = new int[this.numVert][this.numVert];
-        fillMatrizAdjacencia(-1);
+    public static int[][] getMatriz() {
+        return matriz;
     }
-    
-    public void fillMatrizAdjacencia(int value) {
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz[i].length; j++) {
-                matriz[i][j] = value;
-            }
-        }
+
+    public static No[] getVertices() {
+        return vertices;
+    }
+
+    public static void setVertices(No[] vertices) {
+        Grafo.vertices = vertices;
     }
     
     public void addAresta(int vIni, int vFim, int peso) {
@@ -66,8 +69,8 @@ public class Grafo {
     }
     
     public ArrayList getAdjacentes(int no){
-        ArrayList<No> adj = new ArrayList<No>();
-        for(int i=0; i<this.matriz.length;i++){
+        ArrayList<No> adj = new ArrayList<>();
+        for(int i=0; i<matriz.length;i++){
             if(matriz[no][i] != -1)
                 adj.add(new No(i));
         }
