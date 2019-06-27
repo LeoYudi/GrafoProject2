@@ -6,17 +6,16 @@ public class Coloracao {
     private int cores[] = null;
     
     public void execute(Grafo grafo) {
-        Representacao rep = grafo.getRepresentacao();
-        cores = new int[rep.getNumVert()];
+        cores = new int[grafo.getNumVert()];
         for (int i=0; i<cores.length; i++){
             cores[i] = -1;
         }
-        int vMaiorGrau = verticeMaiorGrau(rep);
+        int vMaiorGrau = verticeMaiorGrau(grafo);
         System.out.println("Vertice de Maior Grau: " + vMaiorGrau);
-        coloreVertice(rep, vMaiorGrau);
+        coloreVertice(grafo, vMaiorGrau);
     }
 
-    private void coloreVertice(Representacao rep, int vert) {
+    private void coloreVertice(Grafo rep, int vert) {
         cores[vert] = corApropriada(rep, vert);
         ArrayList<No> adj = rep.getAdjacentes(vert);
         for(int i=0; i<adj.size();i++) {
@@ -26,7 +25,7 @@ public class Coloracao {
         }
     }
     
-    private int corApropriada(Representacao rep, int vert){
+    private int corApropriada(Grafo rep, int vert){
         int cor = -1;
         Boolean flag = false;        
         int i=0;
@@ -43,7 +42,7 @@ public class Coloracao {
         return cor;
     }
 
-    private int verticeMaiorGrau(Representacao rep){
+    private int verticeMaiorGrau(Grafo rep){
         int vert = 0;
         int maior = Integer.MIN_VALUE;
         for (int i=0; i<rep.getNumVert(); i++){
