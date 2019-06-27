@@ -7,12 +7,11 @@ public class ComponentesConexas {
     private int componentes[] = null;
     
     public void execute(Grafo grafo) {
-        Representacao rep = grafo.getRepresentacao();
-        componentes = new int[rep.getNumVert()];
-        buscaProfundidade(rep);
+        componentes = new int[grafo.getNumVert()];
+        buscaProfundidade(grafo);
     }
 
-    private void buscaProfundidade(Representacao rep) {
+    private void buscaProfundidade(Grafo rep) {
         for (int i = 0; i < componentes.length; i++) {
             componentes[i] = -1;
         }
@@ -26,7 +25,7 @@ public class ComponentesConexas {
         this.numComp = idComp+1;
     }
 
-    private void visita(Representacao rep, int vert, int idComp) {
+    private void visita(Grafo rep, int vert, int idComp) {
         componentes[vert] = idComp;
         ArrayList<No> adj = rep.getAdjacentes(vert);
         for(int i=0;i<adj.size();i++) {

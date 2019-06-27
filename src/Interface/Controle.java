@@ -3,7 +3,6 @@ package Interface;
 import Grafos.Coloracao;
 import Grafos.ComponentesConexas;
 import Grafos.Grafo;
-import Grafos.Representacao;
 import Interface.Color.GrayScale;
 import Interface.Color.RainbowScale;
 import java.awt.Color;
@@ -188,7 +187,7 @@ public class Controle extends javax.swing.JFrame {
                 // le numero de vertices
                 int nVert =  Integer.parseInt(in.readLine());
                 this.graph = new Graph(nVert); ///desenho
-                this.grafo = new Grafo(nVert, new Representacao()); ///estrutura de dados
+                this.grafo = new Grafo(nVert); ///estrutura de dados
 
                 //leitura das arestas
                 String line;
@@ -215,8 +214,8 @@ public class Controle extends javax.swing.JFrame {
                 Boolean flag = false;
                 for (int i=0; i<nVert; i++)
                     for (int j=0; j<nVert; j++)
-                        if (this.grafo.getRepresentacao().getMatriz()[i][j] != -1 && 
-                                this.grafo.getRepresentacao().getMatriz()[i][j] != 0) {
+                        if (this.grafo.getMatriz()[i][j] != -1 && 
+                                this.grafo.getMatriz()[i][j] != 0) {
                             flag = true;
                             break;
                         }
