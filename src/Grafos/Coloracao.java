@@ -5,33 +5,33 @@ import java.util.ArrayList;
 public class Coloracao {
     private int cores[] = null;
     
-    public void execute(Grafo grafo) {
-        cores = new int[grafo.getNumVert()];
+    public void execute() {
+        cores = new int[Grafo.numVert];
         for (int i=0; i<cores.length; i++){
             cores[i] = -1;
         }
-        int vMaiorGrau = verticeMaiorGrau(grafo);
+        int vMaiorGrau = verticeMaiorGrau();
         System.out.println("Vertice de Maior Grau: " + vMaiorGrau);
-        coloreVertice(grafo, vMaiorGrau);
+        coloreVertice(vMaiorGrau);
     }
 
-    private void coloreVertice(Grafo rep, int vert) {
-        cores[vert] = corApropriada(rep, vert);
-        ArrayList<No> adj = rep.getAdjacentes(vert);
+    private void coloreVertice(int vert) {
+        cores[vert] = corApropriada(vert);
+        ArrayList<No> adj = Grafo.vertices[vert].getAdjacentes();
         for(int i=0; i<adj.size();i++) {
             if (cores[adj.get(i).getVertID()] == -1) {
-                coloreVertice(rep, adj.get(i).getVertID());
+                coloreVertice(adj.get(i).getVertID());
             }
         }
     }
     
-    private int corApropriada(Grafo rep, int vert){
+    private int corApropriada(int vert){
         int cor = -1;
         Boolean flag = false;        
         int i=0;
         while (!flag){
             cor++;
-            ArrayList<No> adj = rep.getAdjacentes(vert);
+            ArrayList<No> adj = Grafo.vertices[vert].getAdjacentes();
             while (adj!=null && cores[adj.get(i).getVertID()] != cor){
                 i++;
             }
@@ -42,12 +42,12 @@ public class Coloracao {
         return cor;
     }
 
-    private int verticeMaiorGrau(Grafo rep){
+    private int verticeMaiorGrau(){
         int vert = 0;
         int maior = Integer.MIN_VALUE;
-        for (int i=0; i<rep.getNumVert(); i++){
+        for (int i=0; i<Grafo.numVert; i++){
             int cont = 0;
-            ArrayList<No> aux = rep.getAdjacentes(i);
+            ArrayList<No> aux = Grafo.vertices[i].getAdjacentes();
             if (aux.size() > maior){
                 maior = aux.size();
                 vert = i;

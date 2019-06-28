@@ -54,7 +54,7 @@ public class Edge {
                     6, 14);
 
         }
-        if (Grafo.isPonderado()) {
+        if (Grafo.ponderado) {
             drawText(g2, new Point((int) source.getX(), (int) source.getY()),
                     new Point((int) target.getX(), (int) target.getY()),
                     "555", 70);

@@ -32,8 +32,7 @@ public class Controle extends javax.swing.JFrame {
 
     private ViewPanel view;
     private Graph graph;
-    private Grafo grafo;
-    
+        
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -164,7 +163,7 @@ public class Controle extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MIHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MIHelpActionPerformed
-        System.out.println("pau no seu cu");
+        System.out.println("Im helping :)");
         
         
     }//GEN-LAST:event_MIHelpActionPerformed
@@ -180,50 +179,59 @@ public class Controle extends javax.swing.JFrame {
             try {
                 in = new BufferedReader(new FileReader(filename));
                 int aux = Integer.parseInt(in.readLine());
-                if (aux == 0) tipo = "Grafo ";
-                    else tipo = "Digrafo ";
+                // le se eh grafo ou digrafo
+                if (aux == 0) {
+                    Grafo.grafo = true;
+                    tipo = "Grafo ";
+                }
+                    else {
+                    Grafo.grafo = false;
+                    tipo = "Digrafo ";
+                }
                     
                 // le numero de vertices
                 int nVert =  Integer.parseInt(in.readLine());
-                this.graph = new Graph(nVert); ///desenho
-                this.grafo = new Grafo(nVert); ///estrutura de dados
+                this.graph = new Graph(nVert); // desenho
+                Grafo.numVert = nVert; // numero de vertices
+                Grafo.init();   // inicializando matriz e vetor de vertices 
 
-                //leitura das arestas
+                // le as arestas
                 String line;
                 while ((line = in.readLine()) != null && line.trim().length() > 0) {
                     StringTokenizer t1 = new StringTokenizer(line, " ");
-                    int vIni = Integer.parseInt(t1.nextToken().trim()); //verticeInicial
-                    int vFim = Integer.parseInt(t1.nextToken().trim()); //verticeFinal
-                    int peso = Integer.parseInt(t1.nextToken().trim());
+                    
+                    int vIni = Integer.parseInt(t1.nextToken().trim()); // vertice inicial
+                    int vFim = Integer.parseInt(t1.nextToken().trim()); // vertice final
+                    int peso = Integer.parseInt(t1.nextToken().trim()); // peso da aresta
+                    Grafo.addAresta(vIni, vFim, peso); // adiciona a aresta na representacao
+                    
                     Vertex vS = this.graph.getVertex().get(vIni);
                     Vertex vT = this.graph.getVertex().get(vFim);
-                    this.grafo.addAresta(vIni, vFim, peso); //estrutura de dados
-                    Edge e = new Edge(vS, vT); //desenho
+                    Edge e = new Edge(vS, vT); // desenho
+                    this.graph.addEdge(e);    //desenho
+                    
                     //Exemplo de seleção de aresta
                     if (vIni % 2 == 0){
                       //  e.setSelected(true);                        
                     }
-                    
-                    this.graph.addEdge(e);    //desenho
-
-                }  //se tiver peso nas arestas, adicionar mais uma leitura de token
+                }
 
                 this.view.setGraph(graph);
                 
                 Boolean flag = false;
                 for (int i=0; i<nVert; i++)
                     for (int j=0; j<nVert; j++)
-                        if (Grafo.getMatriz()[i][j] != -1 && 
-                                Grafo.getMatriz()[i][j] != 0) {
+                        if (Grafo.matriz[i][j] != -1 && 
+                                Grafo.matriz[i][j] != 0) {
                             flag = true;
                             break;
                         }
                 if (flag) {
-                    
+                    Grafo.ponderado = true;
                     tipo += "Ponderado";
                 }
                 else {
-                    this.grafo.setPonderado(false);
+                    Grafo.ponderado = false;
                     tipo += "Nao-Ponderado";
                 }
                 

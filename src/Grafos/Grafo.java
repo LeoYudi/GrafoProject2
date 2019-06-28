@@ -1,62 +1,31 @@
 package Grafos;
 
-import java.util.ArrayList;
-
-public class Grafo {
-    private int numVert;
-    private static boolean ponderado = false;
-    private static int[][] matriz;
-    private static No[] vertices;
+public abstract class Grafo {
+    public static int numVert;
+    public static boolean grafo;
+    public static boolean ponderado;
+    public static int[][] matriz;
+    public static No[] vertices;
     
-    public Grafo(int numVert){
-        this.numVert = numVert;
+    public static void init () {
         vertices = new No[numVert];
-        matriz = new int[this.numVert][this.numVert];
-        for (int i = 0; i < numVert; i++) {
-            for (int j = 0; j < numVert; j++) {
+        for(int i=0; i<numVert; i++){
+            for(int j=0; j<numVert; j++)
                 matriz[i][j] = -1;
-            }
             vertices[i] = new No(i);
         }
     }
 
-    public int getNumVert() {
-        return numVert;
-    }
-
-    public void setNumVert(int numVert) {
-        this.numVert = numVert;
-    }
-
-    public static boolean isPonderado(){
-        return ponderado;
+    public static void addAresta(int vIni, int vFim, int peso) {
+        if(grafo) 
+            matriz[vIni][vFim] = peso;
+        else {
+            matriz[vIni][vFim] = peso;
+            matriz[vFim][vIni] = peso;
+        }
     }
     
-    public void setPonderado(boolean pond){
-        ponderado = pond;
-    }
-    
-    public static int[][] getMatriz() {
-        return matriz;
-    }
-
-    public static No[] getVertices() {
-        return vertices;
-    }
-
-    public static void setVertices(No[] vertices) {
-        Grafo.vertices = vertices;
-    }
-    
-    public void addAresta(int vIni, int vFim, int peso) {
-        int vi = vIni;
-        int vj = vFim;
-
-        matriz[vi][vj] = peso;
-        matriz[vj][vi] = peso;
-    }
-    
-    public void imprimeGrafo(String mensagem) {
+    public static void imprimeGrafo(String mensagem) {
         System.out.println("=================================");
         System.out.println(mensagem);
         System.out.println("=================================\n");
@@ -66,14 +35,5 @@ public class Grafo {
             }
             System.out.println("");
         }
-    }
-    
-    public ArrayList getAdjacentes(int no){
-        ArrayList<No> adj = new ArrayList<>();
-        for(int i=0; i<matriz.length;i++){
-            if(matriz[no][i] != -1)
-                adj.add(new No(i));
-        }
-        return adj;
     }
 }

@@ -7,17 +7,20 @@ import java.util.Queue;
 public class Util {
     
     public static void inicializa(No[] grafo, int noInicial) {
-        for(int i = 0; i < grafo.length; i++) 
+        for(int i = 0; i < grafo.length; i++) {
             grafo[i].setDistancia(30000);
+            grafo[i].setPredecessor(-1);
+        }
         grafo[noInicial].setDistancia(0);
+        grafo[noInicial].setPredecessor(0);
     }
     
-    public static No[] buscaLargura(int noInicial, Grafo rep) {
-        No[] grafo = new No[rep.getNumVert()];
+    public static No[] buscaLargura(int noInicial) {
+        No[] grafo = new No[Grafo.numVert];
         Queue<No> fila = new LinkedList<>();
         No atual;
         int [][] matriz;
-        matriz = rep.getMatriz();
+        matriz = Grafo.matriz;
         for (int i = 0; i < grafo.length; i++) {
             grafo[i] = new No(i);
         }
@@ -73,16 +76,16 @@ public class Util {
         }
     }
     
-    public static No[] bellmanFord(int noInicial, boolean cicloNeg, Grafo rep) {
+    public static No[] bellmanFord(int noInicial, boolean cicloNeg) {
         int [][] matriz;
-        matriz = rep.getMatriz();
+        matriz = Grafo.matriz;
         No[] grafo = new No[matriz.length];
         for(int i = 0; i < grafo.length; i++) {
             grafo[i] = new No(i);
         }
         int cont;
         Util.inicializa(grafo, noInicial);
-        for(int i = 1; i <= rep.getMatriz().length-1; i++) {
+        for(int i = 1; i <= Grafo.matriz.length-1; i++) {
             for(int j = 0; j < matriz.length; j++) {        /*  para cada  */
                 cont = -1;                                  /* aresta(u,v) */
                 for(int k = 0; k < matriz[j].length; k++) { /*  do grafo   */
@@ -113,18 +116,18 @@ public class Util {
         return grafo;
     }
     
-    public static void imprCaminhoBellman(No grafo[], int ini, Grafo rep) {
+    public static void imprCaminhoBellman(No grafo[], int ini) {
         for (int i = 0; i < grafo.length; i++) {
             System.out.println("");
-            if(verifCaminhoBellman(ini, i, rep))
+            if(verifCaminhoBellman(ini, i))
                 System.out.println("\n     Distância = " + grafo[i].getDistancia());
         }
     }
     
-    public static boolean verifCaminhoBellman(int u, int v, Grafo rep) {
+    public static boolean verifCaminhoBellman(int u, int v) {
         No grafo[];
         boolean cicloNeg = true;
-        grafo = bellmanFord(u, cicloNeg, rep);
+        grafo = bellmanFord(u, cicloNeg);
         int atual = v;
         int caminho[];
         caminho = new int[grafo.length];
@@ -150,6 +153,53 @@ public class Util {
                 System.out.printf(caminho[i] + " --> ");
             System.out.printf(caminho[i] + "");
             return true;
+        }
+    }
+    
+    public static int[][] transposicao() {
+        int tamanho = Grafo.matriz.length;
+        
+        int[][] transposta;
+        transposta = new int[tamanho][tamanho];
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                transposta[i][j] = -1;
+            }
+        }
+        
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                if (Grafo.matriz[i][j] != -1) {
+                    transposta[j][i] = Grafo.matriz[i][j];
+                }
+            }
+        }
+        return transposta;
+    }
+    
+    public static Queue<No> buscaProfundidade(int noInicial) {
+        No[] grafo = new No[Grafo.numVert];
+        Queue<No> fila = new LinkedList<>();
+        for (int i = 0; i < grafo.length; i++) {
+            grafo[i] = new No(i);
+        }
+        int tempo = 1;
+        for (int i = noInicial; i < grafo.length; i++) { // Iniciando pelo no inicial
+            if (grafo[i].getCor() == Color.white) {
+                tempo = grafo[i].visita(grafo, tempo, fila);
+            }
+        }
+        for (int i = 0; i < noInicial; i++) { // Percorrendo os nos anteriores ao incial
+            if (grafo[i].getCor() == Color.white) {
+                tempo = grafo[i].visita(grafo, tempo, fila);
+            }
+        }
+        return fila;
+    }
+    
+    public static void ordenacaoTopologica(Queue<No> fila) {
+        while(!fila.isEmpty()) {
+            System.out.printf(fila.remove().getVertID() + " ");
         }
     }
 }

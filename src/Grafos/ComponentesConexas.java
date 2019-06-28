@@ -6,12 +6,12 @@ public class ComponentesConexas {
     private int numComp;
     private int componentes[] = null;
     
-    public void execute(Grafo grafo) {
-        componentes = new int[grafo.getNumVert()];
-        buscaProfundidade(grafo);
+    public void execute() {
+        componentes = new int[Grafo.numVert];
+        buscaProfundidade();
     }
 
-    private void buscaProfundidade(Grafo rep) {
+    private void buscaProfundidade() {
         for (int i = 0; i < componentes.length; i++) {
             componentes[i] = -1;
         }
@@ -19,18 +19,18 @@ public class ComponentesConexas {
         for (int i = 0; i < componentes.length; i++) {
             if (componentes[i] == -1) {
                 idComp++;
-                visita(rep, i, idComp);
+                visita(i, idComp);
             }
         }
         this.numComp = idComp+1;
     }
 
-    private void visita(Grafo rep, int vert, int idComp) {
+    private void visita(int vert, int idComp) {
         componentes[vert] = idComp;
-        ArrayList<No> adj = rep.getAdjacentes(vert);
+        ArrayList<No> adj = Grafo.vertices[vert].getAdjacentes();
         for(int i=0;i<adj.size();i++) {
             if (componentes[adj.get(i).getVertID()] == -1) {
-                visita(rep, adj.get(i).getVertID(), idComp);
+                visita(adj.get(i).getVertID(), idComp);
             }
         }
     }
