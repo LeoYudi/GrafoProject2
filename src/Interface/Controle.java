@@ -1,24 +1,18 @@
 package Interface;
 
-import Grafos.Coloracao;
-import Grafos.ComponentesConexas;
-import Grafos.Grafo;
-import Interface.Color.GrayScale;
-import Interface.Color.RainbowScale;
+import Grafos.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
@@ -29,15 +23,12 @@ public class Controle extends javax.swing.JFrame {
         //this.view.setGraph(this.graph);
         initComponents();
     }
-
-    private ViewPanel view;
-    private Graph graph;
-        
+       
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane(this.view);
         ID = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -55,6 +46,7 @@ public class Controle extends javax.swing.JFrame {
         MIHelp = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(690, 524));
 
         ID.setEditable(false);
         ID.setForeground(new java.awt.Color(204, 204, 204));
@@ -110,6 +102,11 @@ public class Controle extends javax.swing.JFrame {
         jMenu2.add(MIConex);
 
         MITransp.setText("Transposição");
+        MITransp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MITranspActionPerformed(evt);
+            }
+        });
         jMenu2.add(MITransp);
 
         MIOrdemTop.setText("Ordem Topológica");
@@ -144,7 +141,7 @@ public class Controle extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -164,8 +161,6 @@ public class Controle extends javax.swing.JFrame {
 
     private void MIHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MIHelpActionPerformed
         System.out.println("Im helping :)");
-        
-        
     }//GEN-LAST:event_MIHelpActionPerformed
 
     private void MICriarGrafosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MICriarGrafosActionPerformed
@@ -191,33 +186,40 @@ public class Controle extends javax.swing.JFrame {
                     
                 // le numero de vertices
                 int nVert =  Integer.parseInt(in.readLine());
-                this.graph = new Graph(nVert); // desenho
-                Grafo.numVert = nVert; // numero de vertices
-                Grafo.init();   // inicializando matriz e vetor de vertices 
+                // desenho - adiciona numero de vertices
+                this.graph = new Graph(nVert); 
+                // estrutura - adiciona numero de vertices
+                Grafo.numVert = nVert; 
+                // estrutura - inicializa matriz e vetor de vertices 
+                Grafo.init();   
 
                 // le as arestas
                 String line;
                 while ((line = in.readLine()) != null && line.trim().length() > 0) {
                     StringTokenizer t1 = new StringTokenizer(line, " ");
-                    
-                    int vIni = Integer.parseInt(t1.nextToken().trim()); // vertice inicial
-                    int vFim = Integer.parseInt(t1.nextToken().trim()); // vertice final
-                    int peso = Integer.parseInt(t1.nextToken().trim()); // peso da aresta
-                    Grafo.addAresta(vIni, vFim, peso); // adiciona a aresta na representacao
-                    
-                    Vertex vS = this.graph.getVertex().get(vIni);
+                    // vertice inicial
+                    int vIni = Integer.parseInt(t1.nextToken().trim()); 
+                    // vertice final
+                    int vFim = Integer.parseInt(t1.nextToken().trim()); 
+                    // peso da aresta
+                    int peso = Integer.parseInt(t1.nextToken().trim()); 
+                    // estrutura - cria aresta lida
+                    Grafo.addAresta(vIni, vFim, peso); 
+                    // desenho - cria vertices
+                    Vertex vS = this.graph.getVertex().get(vIni);   
                     Vertex vT = this.graph.getVertex().get(vFim);
-                    Edge e = new Edge(vS, vT); // desenho
-                    this.graph.addEdge(e);    //desenho
-                    
-                    //Exemplo de seleção de aresta
-                    if (vIni % 2 == 0){
-                      //  e.setSelected(true);                        
-                    }
+                     // desenho - cria aresta lida
+                    Edge e = new Edge(vS, vT);
+                    // desenho - desenha setas de orientacao
+                    if (aux == 1) e.setDirected(true);  
+                    // desenho - nao desenha setas de orientacao
+                    else e.setDirected(false);     
+                    // desenho - adiciona aresta criada
+                    this.graph.addEdge(e);
                 }
-
+                // desenho - desenha os grafos na tela
                 this.view.setGraph(graph);
-                
+                // verificando se o grafo eh ponderado ou nao
                 Boolean flag = false;
                 for (int i=0; i<nVert; i++)
                     for (int j=0; j<nVert; j++)
@@ -234,10 +236,8 @@ public class Controle extends javax.swing.JFrame {
                     Grafo.ponderado = false;
                     tipo += "Nao-Ponderado";
                 }
-                
                 ID.setText(tipo);
-                ID.setForeground(Color.black);
-                
+                ID.setForeground(Color.black);             
             } catch (IOException ex) {
                 Logger.getLogger(Controle.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
@@ -272,6 +272,11 @@ public class Controle extends javax.swing.JFrame {
     private void IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDActionPerformed
         
     }//GEN-LAST:event_IDActionPerformed
+
+    private void MITranspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MITranspActionPerformed
+        Grafo.matriz = Util.transposicao(this.graph);
+        this.view.setGraph(graph);
+    }//GEN-LAST:event_MITranspActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -317,15 +322,6 @@ public class Controle extends javax.swing.JFrame {
 
             if (this.imageBuffer != null) {
                 g2.drawImage(this.imageBuffer, 0, 0, null);
-            }
-        }
-
-        public void saveToPngImageFile(String filename) throws IOException {
-            try {
-                //this.paint(this.imageBuffer.getGraphics());
-                ImageIO.write(this.imageBuffer, "png", new File(filename));
-            } catch (IOException ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -437,7 +433,8 @@ public class Controle extends javax.swing.JFrame {
         //The image which will be drawn as a graph
         private BufferedImage imageBuffer;
     }
-
+    private ViewPanel view;
+    private Graph graph;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ID;
     private javax.swing.JMenuItem MIAGM;

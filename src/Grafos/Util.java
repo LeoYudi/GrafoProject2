@@ -1,10 +1,14 @@
 package Grafos;
 
+import Interface.*;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Util {
+    
+    
     
     public static void inicializa(No[] grafo, int noInicial) {
         for(int i = 0; i < grafo.length; i++) {
@@ -156,7 +160,7 @@ public class Util {
         }
     }
     
-    public static int[][] transposicao() {
+    public static int[][] transposicao(Graph desenho) {
         int tamanho = Grafo.matriz.length;
         
         int[][] transposta;
@@ -166,14 +170,26 @@ public class Util {
                 transposta[i][j] = -1;
             }
         }
-        
+        ArrayList<Edge> novasArestas = new ArrayList<>();
         for (int i = 0; i < tamanho; i++) {
             for (int j = 0; j < tamanho; j++) {
                 if (Grafo.matriz[i][j] != -1) {
                     transposta[j][i] = Grafo.matriz[i][j];
+                    // remove a aresta da representacao
+                    Edge aresta = desenho.remEdgeCorrespondente(i, j);
+                    // troca o inicio e final da aresta
+                    Vertex aux = aresta.getSource();
+                    aresta.setSource(aresta.getTarget());
+                    aresta.setTarget(aux);
+                    // guarda a nova aresta numa lista
+                    novasArestas.add(aresta);
                 }
             }
         }
+        // com todas as novas arestas em maos, elas serao armazenadas novamente na representacao
+        int num = novasArestas.size();
+        for (int i=0; i<num; i++)
+            desenho.addEdge(novasArestas.remove(0));
         return transposta;
     }
     

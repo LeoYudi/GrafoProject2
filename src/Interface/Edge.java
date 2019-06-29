@@ -45,41 +45,19 @@ public class Edge {
         g2.setStroke(new java.awt.BasicStroke(1.0f));
 
         if (isDirected()) {
-//            drawArrow(g2, new Point((int) source.getX(), (int) source.getY()),
+            drawArrow(g2, new Point((int) source.getX(), (int) source.getY()),
+                    new Point((int) target.getX(), (int) target.getY()),
+                    6.0f);
+        }
+//        if (Grafo.ponderado) {
+//            drawText(g2, new Point((int) source.getX(), (int) source.getY()),
 //                    new Point((int) target.getX(), (int) target.getY()),
-//                    6.0f);
-
-            drawArrowNew(g2, new Point((int) source.getX(), (int) source.getY()),
-                    new Point((int) target.getX(), (int) target.getY()),
-                    6, 14);
-
-        }
-        if (Grafo.ponderado) {
-            drawText(g2, new Point((int) source.getX(), (int) source.getY()),
-                    new Point((int) target.getX(), (int) target.getY()),
-                    "555", 70);
-        }
+//                    Integer.toString(Grafo.matriz[this.source.getID()][this.target.getID()]),
+//                    70);
+//        }
         g2.setComposite(java.awt.AlphaComposite.getInstance(java.awt.AlphaComposite.SRC_OVER, 1.0f));
     }
 
-    private void drawArrowNew(Graphics2D g2, Point s, Point t, int size, int deslocamento) {
-        float r = (float) Math.sqrt(Math.pow(s.x - t.x, 2) + Math.pow(s.y - t.y, 2));
-        float cos = (t.x - s.x) / r;
-        float sen = (t.y - s.y) / r;
-
-        int xAB = size + deslocamento;
-        int yA = size;
-        int yB = -size;
-
-        Point pa = new Point(Math.round(xAB * -cos - yA * -sen) + t.x, Math.round(xAB * -sen + yA * -cos) + t.y);
-        Point pb = new Point(Math.round(xAB * -cos - yB * -sen) + t.x, Math.round(xAB * -sen + yB * -cos) + t.y);
-        Point pc = new Point(Math.round(deslocamento * -cos) + t.x, Math.round(deslocamento * -sen) + t.y);
-
-        g2.drawLine(pc.x, pc.y, pa.x, pa.y);
-        g2.drawLine(pc.x, pc.y, pb.x, pb.y);
-    }
-
-    //experimental --- precisa melhorar para quando o angulo é negativo
     private void drawText(Graphics2D g2, Point s, Point t, String text, int deslocamento) {
         float r = (float) Math.sqrt(Math.pow(s.x - t.x, 2) + Math.pow(s.y - t.y, 2));
         float cos = (t.x - s.x) / r;
@@ -111,7 +89,7 @@ public class Edge {
 
         g2.setFont(new Font("Verdana", Font.BOLD, 10));
         java.awt.FontMetrics metrics = g2.getFontMetrics(g2.getFont());
-        g2.drawString("T", pc.x, pc.y);
+//        g2.drawString("T", pc.x, pc.y);
     }
 
     public Boolean isDirected() {
@@ -125,4 +103,30 @@ public class Edge {
     public void setSelected(Boolean selected) {
         this.selected = selected;
     }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Vertex getSource() {
+        return source;
+    }
+
+    public void setSource(Vertex source) {
+        this.source = source;
+    }
+
+    public Vertex getTarget() {
+        return target;
+    }
+
+    public void setTarget(Vertex target) {
+        this.target = target;
+    }
+    
+    
 }

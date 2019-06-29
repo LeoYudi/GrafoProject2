@@ -4,12 +4,11 @@ import Interface.Color.RainbowScale;
 import java.util.ArrayList;
 
 public class Graph {
-    protected ArrayList<Vertex> vertex = new ArrayList<Vertex>();
-    protected ArrayList<Edge> edges = new ArrayList<Edge>();
+    protected ArrayList<Vertex> vertex = new ArrayList<>();
+    protected ArrayList<Edge> edges = new ArrayList<>();
     
     public Graph(int nVert) {
         RainbowScale cS = new RainbowScale();
-        //GrayScale cS = new GrayScale();
         int colorStep = 255 / nVert;
         for (int i=0; i<nVert; i++){
             Vertex v = new Vertex();
@@ -22,6 +21,33 @@ public class Graph {
             this.vertex.add(v);
         }
         computeCircledPosition(150);
+    }
+    
+    public Vertex getVertexCorrespondente (int id) {
+        ArrayList<Vertex> vert = this.vertex;
+        for (int i=0; i<vert.size(); i++)
+            if (vert.get(i).getID() == id)
+                return vert.get(i);
+        return null;
+    }
+    
+    public Edge getEdgeCorrespondente (int ini, int fim) {
+        ArrayList<Edge> arest = this.edges;
+        for (int i=0; i<arest.size(); i++)
+            if (arest.get(i).getSource().getID() == ini && arest.get(i).getTarget().getID() == fim)
+                return arest.get(i);
+        return null;
+                
+    }
+    
+    public Edge remEdgeCorrespondente (int ini, int fim) {
+        ArrayList<Edge> arest = this.edges;
+        for (int i=0; i<arest.size(); i++)
+            if (arest.get(i).getSource().getID() == ini && arest.get(i).getTarget().getID() == fim)
+                return arest.remove(i);
+        System.out.println("fudeu");
+        return null;
+                
     }
 
     public void addVertex(Vertex v){

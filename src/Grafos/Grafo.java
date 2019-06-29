@@ -9,6 +9,7 @@ public abstract class Grafo {
     
     public static void init () {
         vertices = new No[numVert];
+        matriz = new int[numVert][numVert];
         for(int i=0; i<numVert; i++){
             for(int j=0; j<numVert; j++)
                 matriz[i][j] = -1;
@@ -17,7 +18,7 @@ public abstract class Grafo {
     }
 
     public static void addAresta(int vIni, int vFim, int peso) {
-        if(grafo) 
+        if(!grafo) 
             matriz[vIni][vFim] = peso;
         else {
             matriz[vIni][vFim] = peso;
